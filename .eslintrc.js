@@ -1,6 +1,1 @@
-module.exports = {
-  extends: 'eslint-config-wolox-node',
-  rules: {
-    'no-console': 'off'
-  }
-};
+module.exports = require('eslint-config-wolox-node');
