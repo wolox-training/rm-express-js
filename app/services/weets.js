@@ -1,10 +1,11 @@
 const axios = require('axios');
 
+const { randomWeetEndpoint } = require('../../config').common.weetApi;
 const { externalApiError, notFoundError } = require('../errors');
 
 exports.getWeet = () =>
   axios
-    .get('https://quote-garden.herokuapp.com/api/v3/quotes/random')
+    .get(randomWeetEndpoint)
     .then(response => response.data.data[0])
     .catch(error => {
       if (error.response && error.response.status === 404) {
