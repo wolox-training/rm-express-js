@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "WTraining",
   "engines": {
-    "node": "10.14.1",
-    "npm": "6.4.1"
+    "node": "14.15.0",
+    "npm": "6.14.8"
   },
   "scripts": {
     "console": "node console.js",
@@ -73,7 +73,7 @@
     "express-wolox-logger": "^2.0.0",
     "factory-girl": "^5.0.4",
     "jwt-simple": "^0.5.1",
-    "pg": "^7.4.1",
+    "pg": "^8.7.1",
     "sequelize": "^5.21.5",
     "swagger-ui-express": "^4.0.7",
     "umzug": "^2.1.0"
