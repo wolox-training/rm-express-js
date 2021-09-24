@@ -27,33 +27,33 @@ describe('POST /users', () => {
 
   it('should fail with validation error if pass invalid password', () =>
     createUser(mockUserInvalidPass).then(res => {
-      expect(res.statusCode).toBe(422);
+      expect(res.statusCode).toBe(400);
       expect(res.body.internal_code).toContain('validation_error');
     }));
 
   it('should fail whit validation error if firsName is missing', () =>
     createUser(mockUserMissingFirstName).then(res => {
-      expect(res.statusCode).toBe(422);
+      expect(res.statusCode).toBe(400);
       expect(res.body.internal_code).toContain('validation_error');
       expect(res.body.message[0].message).toContain("must have required property 'firstName'");
     }));
 
   it('should fail whit validation error if lastName is missing', () =>
     createUser(mockUserMissingLastName).then(res => {
-      expect(res.statusCode).toBe(422);
+      expect(res.statusCode).toBe(400);
       expect(res.body.internal_code).toContain('validation_error');
       expect(res.body.message[0].message).toContain("must have required property 'lastName'");
     }));
   it('should fail whit validation error if email is missing', () =>
     createUser(mockUserMissingEmail).then(res => {
-      expect(res.statusCode).toBe(422);
+      expect(res.statusCode).toBe(400);
       expect(res.body.internal_code).toContain('validation_error');
       expect(res.body.message[0].message).toContain("must have required property 'email'");
     }));
 
   it('should fail whit validation error if password is missing', () =>
     createUser(mockUserMissingPassword).then(res => {
-      expect(res.statusCode).toBe(422);
+      expect(res.statusCode).toBe(400);
       expect(res.body.internal_code).toContain('validation_error');
       expect(res.body.message[0].message).toContain("must have required property 'password'");
     }));
