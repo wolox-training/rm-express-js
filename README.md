@@ -113,6 +113,10 @@ We can use a node console with `npm run console`. There your service objects are
 
 Documentation will be served at `/docs`. We use [OpenAPI](https://github.com/OAI/OpenAPI-Specification) A.K.A `Swagger`. Check [this link](https://medium.com/wolox-driving-innovation/documenting-a-nodejs-rest-api-with-openapi-3-swagger-5deee9f50420) for more details on how to use it.
 
+#### Travis
+
+[![Build Status](https://app.travis-ci.com/wolox-training/rm-express-js.svg?branch=main)](https://app.travis-ci.com/wolox-training/rm-express-js)
+
 ## Deploy
 
 #### Heroku
