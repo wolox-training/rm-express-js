@@ -20,3 +20,6 @@ exports.encryptionError = message => internalError(message, exports.ENCRYPTION_E
 
 exports.VALIDATION_ERROR = 'validation_error';
 exports.validationError = message => internalError(message, exports.VALIDATION_ERROR);
+
+exports.INTERNAL_ERROR = 'internal_api_error';
+exports.externalApiError = message => internalError(message, exports.INTERNAL_ERROR);
