@@ -2,7 +2,7 @@ const logger = require('../logger');
 const { encode } = require('../helpers/jwt');
 
 const { hashPassword, comparePassword } = require('../helpers/encrypt');
-const { createUser, findUserByEmail } = require('../services/users');
+const { createUser, findUserByEmail, getUsers } = require('../services/users');
 const { notFoundError, authenticationError } = require('../errors');
 const { userNotFoundErrorMessage, authenticationErrorMessage } = require('../helpers/constants');
 
@@ -29,6 +29,20 @@ exports.signIn = async (req, res, next) => {
     const payload = { id: user.userId, username: user.email };
     const token = encode(payload);
     res.status(201).send({ token });
+  } catch (error) {
+    logger.error(error.message);
+    next(error);
+  }
+};
+
+exports.getUsers = async (req, res, next) => {
+  try {
+    const page = req.query.page ? req.query.page - 1 : 0;
+    const limit = req.query.limit || 10;
+    const offset = limit * page;
+    const users = await getUsers(limit, offset);
+    if (!users) throw notFoundError(userNotFoundErrorMessage);
+    res.status(201).send({ users });
   } catch (error) {
     logger.error(error.message);
     next(error);

@@ -22,3 +22,18 @@ exports.findUserByEmail = async email => {
     throw databaseError(error.message);
   }
 };
+
+exports.getUsers = async (limit, offset) => {
+  try {
+    const users = await User.findAndCountAll({
+      where: {},
+      attributes: { exclude: ['password'] },
+      limit,
+      offset
+    });
+    return users;
+  } catch (error) {
+    logger.error(error.name);
+    throw databaseError(error.message);
+  }
+};
