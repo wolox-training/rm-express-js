@@ -7,6 +7,6 @@ const truncateTable = model =>
 
 const truncateDatabase = () => Promise.all(tables.map(truncateTable));
 
-global.beforeAll(async () => {
+global.beforeEach(async () => {
   await truncateDatabase();
 });
