@@ -14,3 +14,12 @@ exports.externalApiError = message => internalError(message, exports.EXTERNAL_AP
 
 exports.NOT_FOUND_ERROR = 'not_found_error';
 exports.notFoundError = message => internalError(message, exports.NOT_FOUND_ERROR);
+
+exports.ENCRYPTION_ERROR = 'encryption_error';
+exports.encryptionError = message => internalError(message, exports.ENCRYPTION_ERROR);
+
+exports.VALIDATION_ERROR = 'validation_error';
+exports.validationError = message => internalError(message, exports.VALIDATION_ERROR);
+
+exports.INTERNAL_ERROR = 'internal_api_error';
+exports.externalApiError = message => internalError(message, exports.INTERNAL_ERROR);
