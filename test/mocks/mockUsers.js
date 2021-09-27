@@ -1,7 +1,7 @@
 exports.mockUser = {
-  firstName: 'ricardo',
-  lastName: 'moreno',
-  email: 'ricardo.a.moreno@wolox.co',
+  firstName: 'john',
+  lastName: 'doe',
+  email: 'john.doe@wolox.co',
   password: 'A123456a'
 };
 
