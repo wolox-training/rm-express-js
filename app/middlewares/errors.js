@@ -13,7 +13,8 @@ const statusCodes = {
   [errors.INTERNAL_ERROR]: 500,
   [errors.NOT_FOUND_ERROR]: 404,
   [errors.AUTHENTICATION_ERROR]: 401,
-  [errors.AUTHORIZATION_ERROR]: 401
+  [errors.AUTHORIZATION_ERROR]: 401,
+  [errors.FORBIDDEN_ERROR]: 403
 };
 
 exports.handle = (error, req, res, next) => {

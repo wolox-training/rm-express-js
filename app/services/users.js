@@ -37,3 +37,26 @@ exports.getUsers = async (limit, offset) => {
     throw databaseError(error.message);
   }
 };
+
+exports.updateUser = async (userId, userData) => {
+  try {
+    const response = await User.update(userData, { where: { id: userId } });
+    return response;
+  } catch (error) {
+    logger.error(error.name);
+    throw databaseError(error.message);
+  }
+};
+
+exports.createAdminUser = async userData => {
+  try {
+    const response = await User.upsert(userData, {
+      where: { email: userData.email },
+      returning: true
+    });
+    return response;
+  } catch (error) {
+    logger.error(error.name);
+    throw databaseError(error.message);
+  }
+};
