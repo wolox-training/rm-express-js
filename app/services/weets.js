@@ -1,7 +1,10 @@
 const axios = require('axios');
+const { Weet } = require('../models');
+const logger = require('../logger');
 
 const { randomWeetEndpoint } = require('../../config').common.weetApi;
-const { externalApiError, notFoundError } = require('../errors');
+const { externalApiError, notFoundError, databaseError } = require('../errors');
+const { databaseErrorMessage } = require('../helpers/constants');
 
 exports.getWeet = () =>
   axios
@@ -13,3 +16,13 @@ exports.getWeet = () =>
       }
       return externalApiError(error.message);
     });
+
+exports.createWeet = async weetData => {
+  try {
+    const response = await Weet.create(weetData);
+    return response;
+  } catch (error) {
+    logger.error(error.toString());
+    throw databaseError(databaseErrorMessage);
+  }
+};

@@ -30,7 +30,7 @@ exports.signIn = async (req, res, next) => {
     if (!user) throw notFoundError(userNotFoundErrorMessage);
     const isMatch = await comparePassword(password, user);
     if (!isMatch) throw authenticationError(authenticationErrorMessage);
-    const payload = { id: user.userId, email: user.email, isAdmin: user.isAdmin };
+    const payload = { id: user.id, email: user.email, isAdmin: user.isAdmin };
     const token = encode(payload);
     res.status(201).send({ token });
   } catch (error) {
