@@ -47,6 +47,9 @@ const config = {
     },
     weetApi: {
       randomWeetEndpoint: process.env.WEET_API
+    },
+    token: {
+      secret: process.env.SECRET_KEY
     }
   }
 };

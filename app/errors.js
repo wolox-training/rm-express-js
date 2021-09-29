@@ -23,3 +23,9 @@ exports.validationError = message => internalError(message, exports.VALIDATION_E
 
 exports.INTERNAL_ERROR = 'internal_api_error';
 exports.internalApiError = message => internalError(message, exports.INTERNAL_ERROR);
+
+exports.NOT_FOUND_ERROR = 'not_found_error';
+exports.notFoundError = message => internalError(message, exports.NOT_FOUND_ERROR);
+
+exports.AUTHENTICATION_ERROR = 'authentication_error';
+exports.authenticationError = message => internalError(message, exports.AUTHENTICATION_ERROR);
