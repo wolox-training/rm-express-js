@@ -1,7 +1,7 @@
-const { externalApiError } = require('../errors');
+const { externalApiError, validationError } = require('../errors');
 const logger = require('../logger');
 
-const { externalApiErrorMessage } = require('../helpers/constants');
+const { externalApiErrorMessage, weetErrorMessage } = require('../helpers/constants');
 const { createWeet, getWeet } = require('../services/weets');
 
 exports.weet = async (req, res, next) => {
@@ -9,6 +9,7 @@ exports.weet = async (req, res, next) => {
     const userId = req.user.id;
     const weet = await getWeet();
     const content = weet ? weet.quoteText : next(externalApiError(externalApiErrorMessage));
+    if (content.length > 140) next(validationError(weetErrorMessage));
     const weetResp = await createWeet({ userId, content });
     logger.info(`weet ${weetResp.id} was created succesfully`);
     res.status(201).send({ weetId: weetResp.id });
