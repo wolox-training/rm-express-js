@@ -23,7 +23,7 @@ beforeAll(async () => {
 describe('GET /users/sessions', () => {
   it('should get users if user is authenticated', async () => {
     const data = await getUsers(userToken);
-    expect(data.statusCode).toBe(201);
+    expect(data.statusCode).toBe(200);
     expect(data.body).toHaveProperty('users');
   });
 
