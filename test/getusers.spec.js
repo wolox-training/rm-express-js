@@ -29,7 +29,7 @@ describe('GET /users/sessions', () => {
 
   it('should fail if user is not authenticated', async () => {
     const data = await getUsers(null);
-    expect(data.statusCode).toBe(401);
+    expect(data.statusCode).toBe(403);
     expect(data.body.internal_code).toContain(AUTHORIZATION_ERROR);
   });
 });
