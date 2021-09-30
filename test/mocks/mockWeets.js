@@ -3,18 +3,30 @@ const { randomWeetEndpoint } = require('../../config').common.weetApi;
 
 exports.getWeet = () =>
   nock(randomWeetEndpoint)
-    .get()
-    .reply(201, {
-      _id: '5eb17ab1b69dc744b4e7c8de',
-      quoteText: "When I was young I didn't care about education, just money.",
-      quoteAuthor: 'Jackie Chan',
-      quoteGenre: 'money',
-      __v: 0
+    .get('')
+    .reply(200, {
+      statusCode: 200,
+      message: 'Random quotes',
+      pagination: {
+        currentPage: 1,
+        nextPage: null,
+        totalPages: 1
+      },
+      totalQuotes: 1,
+      data: [
+        {
+          _id: '5eb17aadb69dc744b4e70e2e',
+          quoteText: 'Age is strictly a case of mind over matter',
+          quoteAuthor: 'Jack Benny',
+          quoteGenre: 'age',
+          __v: 0
+        }
+      ]
     });
 
 exports.getLongWeet = () =>
   nock(randomWeetEndpoint)
-    .get()
+    .get('')
     .reply(200, {
       statusCode: 200,
       message: 'Random quotes',
@@ -35,3 +47,8 @@ exports.getLongWeet = () =>
         }
       ]
     });
+
+exports.getWeetFail = () =>
+  nock(randomWeetEndpoint)
+    .get('')
+    .reply(503);

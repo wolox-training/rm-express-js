@@ -11,6 +11,7 @@ exports.getWeet = async () => {
     const response = await axios.get(randomWeetEndpoint);
     return response.data.data[0];
   } catch (error) {
+    logger.error(error.message);
     if (error.response && error.response.status === 404) {
       throw notFoundError(error.message);
     }
