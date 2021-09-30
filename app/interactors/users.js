@@ -24,7 +24,7 @@ exports.signInInteractor = async body => {
   if (!user) throw notFoundError(userNotFoundErrorMessage);
   const isMatch = await comparePassword(password, user);
   if (!isMatch) throw authenticationError(authenticationErrorMessage);
-  const payload = { id: user.userId, username: user.email };
+  const payload = { id: user.userId, email: user.email, isAdmin: user.isAdmin };
   const token = encode(payload);
   return token;
 };
