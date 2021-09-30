@@ -1,6 +1,6 @@
 const { validationError } = require('../errors');
 
-const validateDto = ajvValidate => (req, res, next) => {
+exports.validateDto = ajvValidate => (req, res, next) => {
   const valid = ajvValidate(req.body);
   if (!valid) {
     const { errors } = ajvValidate;
@@ -8,5 +8,3 @@ const validateDto = ajvValidate => (req, res, next) => {
   }
   return next();
 };
-
-module.exports = validateDto;
