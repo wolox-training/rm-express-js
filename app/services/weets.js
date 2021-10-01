@@ -28,3 +28,17 @@ exports.createWeet = async weetData => {
     throw databaseError(databaseErrorMessage);
   }
 };
+
+exports.getWeets = async (limit, offset) => {
+  try {
+    const weets = await Weet.findAndCountAll({
+      where: {},
+      limit,
+      offset
+    });
+    return weets;
+  } catch (error) {
+    logger.error(error.message);
+    throw databaseError(databaseErrorMessage);
+  }
+};
