@@ -1,33 +1,5 @@
 module.exports = {
   '/users': {
-    get: {
-      tags: ['CRUD operations'],
-      description: 'Get users',
-      operationId: 'getUsers',
-      parameters: [
-        {
-          name: 'page',
-          in: 'query',
-          schema: {
-            type: 'integer',
-            default: 1
-          },
-          required: false
-        }
-      ],
-      responses: {
-        200: {
-          description: 'Users were obtained',
-          content: {
-            'application/json': {
-              schema: {
-                $ref: '#/components/schemas/Users'
-              }
-            }
-          }
-        }
-      }
-    },
     post: {
       tags: ['CRUD operations'],
       description: 'Create user',
@@ -44,19 +16,50 @@ module.exports = {
         required: true
       },
       responses: {
-        200: {
-          description: 'New user was created'
+        201: {
+          description: 'user was created succesfully',
+          content: {
+            'application/json': {
+              example: {
+                userId: 1
+              }
+            }
+          }
         },
-        400: {
-          description: 'Invalid parameters',
+        503: {
+          description: 'database error',
           content: {
             'application/json': {
               schema: {
                 $ref: '#/components/schemas/Error'
               },
               example: {
-                message: 'User´s email already exists',
-                internal_code: 'invalid_parameters'
+                message: 'validation error',
+                internal_code: 'database_error'
+              }
+            }
+          }
+        },
+        400: {
+          description: 'validation error',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Error'
+              },
+              example: {
+                message: [
+                  {
+                    instancePath: '/firstName',
+                    schemaPath: '#/properties/firstName/type',
+                    keyword: 'type',
+                    params: {
+                      type: 'string'
+                    },
+                    message: 'must be string'
+                  }
+                ],
+                internal_code: 'validation_error'
               }
             }
           }

@@ -1,7 +1,7 @@
 const { healthCheck } = require('./controllers/healthCheck');
 const { signUp, signIn, getUsers, adminUser } = require('./controllers/users');
-const validateDto = require('../app/middlewares/validate-dto');
-const validateToken = require('./middlewares/validateToken');
+const { validateDto } = require('../app/middlewares/validate-dto');
+const { validateToken } = require('./middlewares/validateToken');
 const userSchema = require('../app/helpers/ajv-schemas/user');
 const signInSchema = require('../app/helpers/ajv-schemas/signIn');
 

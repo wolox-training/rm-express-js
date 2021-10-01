@@ -2,7 +2,7 @@ const supertest = require('supertest');
 const { User } = require('../app/models');
 
 const app = require('../app');
-const { VALIDATION_ERROR, AUTHORIZATION_ERROR, FORBIDDEN_ERROR } = require('../app/errors');
+const { VALIDATION_ERROR, AUTHORIZATION_ERROR } = require('../app/errors');
 const {
   mockUser,
   mockUserAlt,
@@ -45,7 +45,7 @@ describe('POST /admin/users', () => {
 
   it('should fail if request user is not authenticated', async () => {
     const data = await createAdminUser(null, mockUser);
-    expect(data.statusCode).toBe(401);
+    expect(data.statusCode).toBe(403);
     expect(data.body.internal_code).toContain(AUTHORIZATION_ERROR);
   });
 
@@ -55,7 +55,7 @@ describe('POST /admin/users', () => {
     const noAdminToken = signInData.body.token;
     const data = await createAdminUser(noAdminToken, mockUserAlt);
     expect(data.statusCode).toBe(403);
-    expect(data.body.internal_code).toContain(FORBIDDEN_ERROR);
+    expect(data.body.internal_code).toContain(AUTHORIZATION_ERROR);
   });
 
   it('should fail with validation error if pass invalid password', async () => {
