@@ -32,6 +32,3 @@ exports.authenticationError = message => internalError(message, exports.AUTHENTI
 
 exports.AUTHORIZATION_ERROR = 'authorization_error';
 exports.authorizationError = message => internalError(message, exports.AUTHORIZATION_ERROR);
-
-exports.FORBIDDEN_ERROR = 'forbidden_error';
-exports.forbiddenError = message => internalError(message, exports.FORBIDDEN_ERROR);
