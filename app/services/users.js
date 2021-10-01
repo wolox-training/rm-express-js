@@ -2,14 +2,15 @@ const logger = require('../logger');
 
 const { User } = require('../models');
 const { databaseError } = require('../errors');
+const { databaseErrorMessage } = require('../helpers/constants');
 
 exports.createUser = async userdata => {
   try {
     const response = await User.create(userdata);
     return response;
   } catch (error) {
-    logger.error(error.name);
-    throw databaseError(error.message);
+    logger.error(error.message);
+    throw databaseError(databaseErrorMessage);
   }
 };
 
@@ -18,8 +19,8 @@ exports.findUserByEmail = async email => {
     const user = await User.findOne({ where: { email } });
     return user;
   } catch (error) {
-    logger.error(error.name);
-    throw databaseError(error.message);
+    logger.error(error.message);
+    throw databaseError(databaseErrorMessage);
   }
 };
 
@@ -33,8 +34,8 @@ exports.getUsers = async (limit, offset) => {
     });
     return users;
   } catch (error) {
-    logger.error(error.name);
-    throw databaseError(error.message);
+    logger.error(error.message);
+    throw databaseError(databaseErrorMessage);
   }
 };
 

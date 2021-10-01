@@ -18,7 +18,7 @@ describe('POST /users/sessions', () => {
   it('should respond a token if user email and password are valid', async () => {
     await createUser(mockUser);
     const data = await signIn({ email: mockUser.email, password: mockUser.password });
-    expect(data.statusCode).toBe(201);
+    expect(data.statusCode).toBe(200);
     expect(data.body).toHaveProperty('token');
   });
 
