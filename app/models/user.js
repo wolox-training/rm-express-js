@@ -33,6 +33,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         field: 'is_admin',
         defaultValue: false
+      },
+      points: {
+        type: DataTypes.INTEGER,
+        field: 'points',
+        defaultValue: 0
+      },
+      position: {
+        type: DataTypes.STRING,
+        field: 'position',
+        defaultValue: 'Developer'
       }
     },
     {
@@ -40,5 +50,11 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true
     }
   );
+
+  User.beforeUpdate(user => {
+    // eslint-disable-next-line no-console
+    console.log(user.dataValues);
+  });
+
   return User;
 };

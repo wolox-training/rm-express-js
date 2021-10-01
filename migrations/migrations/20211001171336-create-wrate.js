@@ -1,15 +1,15 @@
 'use strict';
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    queryInterface.addColumn('users', 'score', {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.addColumn('users', 'points', {
       type: Sequelize.INTEGER,
       defaultValue: 0
     });
-    queryInterface.addColumn('users', 'position', {
+    await queryInterface.addColumn('users', 'position', {
       type: Sequelize.STRING,
       defaultValue: 'Developer'
     });
-    queryInterface.createTable('Wrates', {
+    await queryInterface.createTable('wrates', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -43,9 +43,9 @@ module.exports = {
       }
     });
   },
-  down: queryInterface => {
-    queryInterface.dropTable('Wrates');
-    queryInterface.removeColumn('users', 'position');
-    queryInterface.removeColumn('users', 'score');
+  down: async queryInterface => {
+    await queryInterface.dropTable('wrates');
+    await queryInterface.removeColumn('users', 'position');
+    await queryInterface.removeColumn('users', 'points');
   }
 };
