@@ -45,7 +45,7 @@ describe('POST /weets', () => {
 
   it('should fail if request user is not authenticated', async () => {
     const data = await createWeet(null);
-    expect(data.statusCode).toBe(401);
+    expect(data.statusCode).toBe(403);
     expect(data.body.internal_code).toContain(AUTHORIZATION_ERROR);
   });
 });
