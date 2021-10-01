@@ -13,7 +13,11 @@ exports.validateToken = (req, res, next) => {
     }
     const token = req.headers.authorization.split(' ')[1];
     const decoded = jwt.decode(token, secret);
-    req.user = { id: decoded.payload.id, username: decoded.payload.email };
+    req.user = {
+      id: decoded.payload.id,
+      email: decoded.payload.email,
+      isAdmin: decoded.payload.isAdmin
+    };
     next();
   } catch (error) {
     logger.error(error.message);

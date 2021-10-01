@@ -5,6 +5,13 @@ exports.mockUser = {
   password: 'A123456a'
 };
 
+exports.mockUserAlt = {
+  firstName: 'Jane',
+  lastName: 'Doe',
+  email: 'Jane.Doe@wolox.co',
+  password: 'A123456a'
+};
+
 exports.mockUserInvalidPass = {
   ...this.mockUser,
   password: '123456'

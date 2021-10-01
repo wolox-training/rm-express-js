@@ -1,5 +1,10 @@
 const logger = require('../logger');
-const { getUsersInteractor, signInInteractor, signUpInteractor } = require('../interactors/users');
+const {
+  getUsersInteractor,
+  signInInteractor,
+  signUpInteractor,
+  createAdminUserInteractor
+} = require('../interactors/users');
 
 exports.signUp = async (req, res, next) => {
   try {
@@ -25,6 +30,16 @@ exports.getUsers = async (req, res, next) => {
   try {
     const users = await getUsersInteractor(req.query);
     res.status(200).send(users);
+  } catch (error) {
+    logger.error(error.message);
+    next(error);
+  }
+};
+
+exports.adminUser = async (req, res, next) => {
+  try {
+    const adminUser = await createAdminUserInteractor(req.user, req.body);
+    res.status(201).send(adminUser);
   } catch (error) {
     logger.error(error.message);
     next(error);
