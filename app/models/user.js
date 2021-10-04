@@ -1,4 +1,8 @@
 'use strict';
+const { position } = require('../helpers/set_position');
+
+const logger = require('../logger');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
@@ -50,11 +54,10 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true
     }
   );
-
-  User.beforeUpdate(user => {
-    // eslint-disable-next-line no-console
-    console.log(user.dataValues);
+  User.beforeUpdate(instance => {
+    const pos = position(instance.dataValues.points);
+    logger.info(pos);
+    instance.position = pos;
   });
-
   return User;
 };
