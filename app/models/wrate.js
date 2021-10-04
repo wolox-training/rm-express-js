@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       score: DataTypes.INTEGER
     },
-    {}
+    { timestamps: true, underscored: true }
   );
   Wrate.associate = models => {
     Wrate.belongsTo(
