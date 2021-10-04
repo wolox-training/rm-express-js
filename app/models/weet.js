@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         field: 'content'
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'user_id'
       }
     },
     {
