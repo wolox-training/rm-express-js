@@ -4,7 +4,11 @@ const logger = require('../logger');
 
 const { randomWeetEndpoint } = require('../../config').common.weetApi;
 const { externalApiError, notFoundError, databaseError } = require('../errors');
-const { databaseErrorMessage } = require('../helpers/constants');
+const {
+  databaseErrorMessage,
+  externalApiErrorMessage,
+  weetNotFoundErrorMessage
+} = require('../helpers/constants');
 
 exports.getWeet = async () => {
   try {
@@ -13,9 +17,9 @@ exports.getWeet = async () => {
   } catch (error) {
     logger.error(error.message);
     if (error.response && error.response.status === 404) {
-      throw notFoundError(error.message);
+      throw notFoundError(weetNotFoundErrorMessage);
     }
-    throw externalApiError(error.message);
+    throw externalApiError(externalApiErrorMessage);
   }
 };
 
