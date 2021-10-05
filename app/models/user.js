@@ -26,7 +26,6 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        field: 'email',
         unique: true
       },
       password: {
@@ -40,12 +39,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       points: {
         type: DataTypes.INTEGER,
-        field: 'points',
         defaultValue: 0
       },
       position: {
         type: DataTypes.STRING,
-        field: 'position',
         defaultValue: 'Developer'
       }
     },
@@ -56,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   User.beforeUpdate(instance => {
     const pos = position(instance.dataValues.points);
-    logger.info(pos);
+    logger.info(`position is: ${pos}`);
     instance.position = pos;
   });
   return User;

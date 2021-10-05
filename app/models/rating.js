@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Wrate = sequelize.define(
-    'Wrate',
+  const Rating = sequelize.define(
+    'Rating',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     { timestamps: true, underscored: true }
   );
-  Wrate.associate = models => {
-    Wrate.belongsTo(
+  Rating.associate = models => {
+    Rating.belongsTo(
       models.User,
       {
         foreignKey: {
@@ -34,5 +34,5 @@ module.exports = (sequelize, DataTypes) => {
       }
     );
   };
-  return Wrate;
+  return Rating;
 };
