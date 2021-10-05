@@ -1,10 +1,10 @@
 const logger = require('../logger');
 
-const { weetsInteractor, getWeetsInteractor } = require('../interactors/weets');
+const { createWeetInteractor, getWeetsInteractor } = require('../interactors/weets');
 
 exports.weet = async (req, res, next) => {
   try {
-    const weet = await weetsInteractor(req, res, next);
+    const weet = await createWeetInteractor(req.user);
     res.status(201).send(weet);
   } catch (error) {
     logger.error(error.message);
