@@ -7,11 +7,11 @@ const { notFoundError } = require('../errors');
 const { weetNotFoundErrorMessage } = require('../helpers/constants');
 const { getWeets, rateWeets } = require('../services/weets');
 
-exports.weetsInteractor = async (req, res, next) => {
-  const userId = req.user.id;
+exports.createWeetInteractor = async user => {
+  const userId = user.id;
   const weet = await getWeet();
-  if (!weet) return next(externalApiError(externalApiErrorMessage));
-  if (weet.quoteText.length > 140) return next(validationError(weetErrorMessage));
+  if (!weet) throw externalApiError(externalApiErrorMessage);
+  if (weet.quoteText.length > 140) throw validationError(weetErrorMessage);
   const content = weet.quoteText;
   const weetResp = await createWeet({ userId, content });
   logger.info(`weet ${weetResp.id} was created succesfully`);

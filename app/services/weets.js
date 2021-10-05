@@ -3,10 +3,16 @@ const axios = require('axios');
 const { Weet, Wrate, User } = require('../models');
 const { sequelize } = require('../models');
 const logger = require('../logger');
+const errors = require('../errors');
+const { statusCodes } = require('../middlewares/errors');
 
 const { randomWeetEndpoint } = require('../../config').common.weetApi;
 const { externalApiError, notFoundError, databaseError } = require('../errors');
-const { databaseErrorMessage } = require('../helpers/constants');
+const {
+  databaseErrorMessage,
+  externalApiErrorMessage,
+  weetNotFoundErrorMessage
+} = require('../helpers/constants');
 
 exports.getWeet = async () => {
   try {
@@ -14,10 +20,10 @@ exports.getWeet = async () => {
     return response.data.data[0];
   } catch (error) {
     logger.error(error.message);
-    if (error.response && error.response.status === 404) {
-      throw notFoundError(error.message);
+    if (error.response && error.response.status === statusCodes[errors.NOT_FOUND_ERROR]) {
+      throw notFoundError(weetNotFoundErrorMessage);
     }
-    throw externalApiError(error.message);
+    throw externalApiError(externalApiErrorMessage);
   }
 };
 

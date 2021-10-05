@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 const {
-  weetsInteractor,
+  createWeetInteractor,
   getWeetsInteractor,
   rateWeetsInteractor
 } = require('../interactors/weets');
@@ -8,7 +8,7 @@ const logger = require('../logger');
 
 exports.weet = async (req, res, next) => {
   try {
-    const weet = await weetsInteractor(req, res, next);
+    const weet = await createWeetInteractor(req.user);
     res.status(201).send(weet);
   } catch (error) {
     logger.error(error.message);
