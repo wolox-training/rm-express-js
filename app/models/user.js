@@ -1,5 +1,5 @@
 'use strict';
-const { position } = require('../helpers/set_position');
+const { calculatePosition } = require('../services/positions');
 
 const logger = require('../logger');
 
@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   User.beforeUpdate(instance => {
-    const pos = position(instance.dataValues.points);
+    const pos = calculatePosition(instance.dataValues.points);
     logger.info(`position is: ${pos}`);
     instance.position = pos;
   });
