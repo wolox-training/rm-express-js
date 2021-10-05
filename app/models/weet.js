@@ -26,12 +26,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   Weet.associate = models => {
-    Weet.belongsTo(models.User, {
-      foreignKey: {
-        name: 'user_id',
-        allowNull: false
+    Weet.belongsTo(
+      models.User,
+      {
+        foreignKey: {
+          name: 'userId',
+          allowNull: false
+        }
+      },
+      {
+        underscored: true
       }
-    });
+    );
   };
   return Weet;
 };

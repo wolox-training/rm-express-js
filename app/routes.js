@@ -1,5 +1,6 @@
 const { healthCheck } = require('./controllers/healthCheck');
 const { signUp, signIn, getUsers, adminUser } = require('./controllers/users');
+const { weet } = require('./controllers/weets');
 const { validateDto } = require('../app/middlewares/validate-dto');
 const { validateToken } = require('./middlewares/validateToken');
 const userSchema = require('../app/helpers/ajv-schemas/user');
@@ -11,4 +12,5 @@ exports.init = app => {
   app.post('/users/sessions', [validateDto(signInSchema)], signIn);
   app.get('/users', [validateToken], getUsers);
   app.post('/admin/users', [validateToken, validateDto(userSchema)], adminUser);
+  app.post('/weets', [validateToken], weet);
 };
