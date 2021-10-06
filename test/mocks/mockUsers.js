@@ -51,3 +51,9 @@ exports.mockUserInvalidEmail = {
   ...this.mockUser,
   email: 'email@domain.co'
 };
+
+exports.mockUserVerified = {
+  id: 1,
+  email: 'email@wolox.co',
+  isAdmin: true
+};
