@@ -3,14 +3,13 @@ const ajvInstance = require('./ajv-instance');
 const schema = {
   type: 'object',
   properties: {
-    ratinUserId: { type: 'integer' },
-    weet_id: { type: 'integer' },
+    ratingUserId: { type: 'integer' },
     score: {
       type: 'number',
-      pattern: '^[-+](1)$'
+      enum: [1, -1]
     }
   },
-  required: ['firstName', 'lastName', 'email', 'password'],
+  required: ['ratingUserId', 'score'],
   additionalProperties: false
 };
 

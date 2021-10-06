@@ -5,7 +5,7 @@ const { externalApiErrorMessage, weetErrorMessage } = require('../helpers/consta
 const { pagination } = require('../helpers/pagination');
 const { notFoundError } = require('../errors');
 const { weetNotFoundErrorMessage } = require('../helpers/constants');
-const { getWeets, rateWeets } = require('../services/weets');
+const { getWeets } = require('../services/weets');
 
 exports.createWeetInteractor = async user => {
   const userId = user.id;
@@ -23,11 +23,4 @@ exports.getWeetsInteractor = async query => {
   const weets = await getWeets(limit, offset);
   if (!weets) throw notFoundError(weetNotFoundErrorMessage);
   return { weets };
-};
-
-exports.rateWeetsInteractor = async (query, body) => {
-  const { id } = query;
-  const wrate = await rateWeets(id, body);
-  if (!wrate) throw notFoundError(weetNotFoundErrorMessage);
-  return { wrate };
 };

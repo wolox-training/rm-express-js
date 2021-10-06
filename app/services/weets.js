@@ -1,7 +1,6 @@
 const axios = require('axios');
 
-const { Weet, Wrate, User } = require('../models');
-const { sequelize } = require('../models');
+const { Weet } = require('../models');
 const logger = require('../logger');
 const errors = require('../errors');
 const { statusCodes } = require('../middlewares/errors');
@@ -48,26 +47,5 @@ exports.getWeets = async (limit, offset) => {
   } catch (error) {
     logger.error(error.message);
     throw databaseError(databaseErrorMessage);
-  }
-};
-
-exports.rateWeets = async (id, body) => {
-  let transaction = {};
-  try {
-    transaction = await sequelize.transaction();
-    // Create transaction
-    const wrates = await Wrate.create({ ...body });
-    // Get transmitter account
-    const receptor = await User.findOne({ where: { id } });
-    // Get user account
-    await receptor.increment('points', { by: body.score, transaction });
-    // Increment user points
-    await transaction.commit();
-    // Commit the transaction
-    return { wrates };
-  } catch (err) {
-    if (transaction.rollback) await transaction.rollback();
-    // Rollback the transaction in case of error
-    throw err;
   }
 };
