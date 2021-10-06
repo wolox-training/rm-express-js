@@ -1,4 +1,8 @@
 'use strict';
+const { calculatePosition } = require('../services/positions');
+
+const logger = require('../logger');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
@@ -22,7 +26,6 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        field: 'email',
         unique: true
       },
       password: {
@@ -33,6 +36,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         field: 'is_admin',
         defaultValue: false
+      },
+      points: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+      },
+      position: {
+        type: DataTypes.STRING,
+        defaultValue: 'Developer'
       }
     },
     {
@@ -40,5 +51,10 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true
     }
   );
+  User.beforeUpdate(instance => {
+    const pos = calculatePosition(instance.dataValues.points);
+    logger.info(`position is: ${pos}`);
+    instance.position = pos;
+  });
   return User;
 };

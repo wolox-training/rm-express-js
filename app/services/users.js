@@ -41,7 +41,7 @@ exports.getUsers = async (limit, offset) => {
 
 exports.updateUser = async (userId, userData) => {
   try {
-    const response = await User.update(userData, { where: { id: userId } });
+    const response = await User.update(userData, { where: { id: userId }, individualHooks: true });
     return response;
   } catch (error) {
     logger.error(error.name);
