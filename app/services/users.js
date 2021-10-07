@@ -1,8 +1,9 @@
 const logger = require('../logger');
+const { encode } = require('../helpers/jwt');
 
 const { User } = require('../models');
 const { databaseError } = require('../errors');
-const { databaseErrorMessage } = require('../helpers/constants');
+const { databaseErrorMessage, secondsOffset } = require('../helpers/constants');
 
 exports.createUser = async userdata => {
   try {
@@ -42,10 +43,11 @@ exports.getUsers = async (limit, offset) => {
 exports.updateUser = async (userId, userData) => {
   try {
     const response = await User.update(userData, { where: { id: userId }, individualHooks: true });
+    logger.info('user updated response', response);
     return response;
   } catch (error) {
-    logger.error(error.name);
-    throw databaseError(error.message);
+    logger.error(error.message);
+    throw databaseError(databaseErrorMessage);
   }
 };
 
@@ -57,7 +59,15 @@ exports.createAdminUser = async userData => {
     });
     return response;
   } catch (error) {
-    logger.error(error.name);
-    throw databaseError(error.message);
+    logger.error(error.message);
+    throw databaseError(databaseErrorMessage);
   }
+};
+
+exports.generateToken = user => {
+  const iat = Math.floor(Date.now() / 1000);
+  const exp = iat + secondsOffset;
+  const payload = { id: user.id, email: user.email, isAdmin: user.isAdmin, iat, exp };
+  const token = encode(payload);
+  return token;
 };

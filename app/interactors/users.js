@@ -1,6 +1,12 @@
 const logger = require('../logger');
-const { encode } = require('../helpers/jwt');
-const { createUser, getUsers, findUserByEmail, createAdminUser } = require('../services/users');
+const {
+  createUser,
+  getUsers,
+  findUserByEmail,
+  createAdminUser,
+  generateToken,
+  updateUser
+} = require('../services/users');
 const { pagination } = require('../helpers/pagination');
 const { notFoundError, authenticationError, authorizationError } = require('../errors');
 const {
@@ -24,8 +30,7 @@ exports.signInInteractor = async body => {
   if (!user) throw notFoundError(userNotFoundErrorMessage);
   const isMatch = await comparePassword(password, user);
   if (!isMatch) throw authenticationError(authenticationErrorMessage);
-  const payload = { id: user.id, email: user.email, isAdmin: user.isAdmin };
-  const token = encode(payload);
+  const token = generateToken(user);
   return token;
 };
 
@@ -51,4 +56,10 @@ exports.createAdminUserInteractor = async (user, body) => {
   const action = adminUser[1] ? 'created' : 'updated';
   logger.info(`admin user ${adminUser[0].id} was ${action} succesfully`);
   return { userId: adminUser[0].id };
+};
+
+exports.invalidateSessionsInteractor = async user => {
+  const userSession = await updateUser(user.id, { sessionExpire: Date.now() });
+  if (!userSession[0]) throw notFoundError(userNotFoundErrorMessage);
+  return { userId: userSession[1][0].id };
 };

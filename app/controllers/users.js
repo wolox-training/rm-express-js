@@ -3,8 +3,10 @@ const {
   getUsersInteractor,
   signInInteractor,
   signUpInteractor,
-  createAdminUserInteractor
+  createAdminUserInteractor,
+  invalidateSessionsInteractor
 } = require('../interactors/users');
+const { sessionClosedMessage } = require('../helpers/constants');
 
 exports.signUp = async (req, res, next) => {
   try {
@@ -40,6 +42,18 @@ exports.adminUser = async (req, res, next) => {
   try {
     const adminUser = await createAdminUserInteractor(req.user, req.body);
     res.status(201).send(adminUser);
+  } catch (error) {
+    logger.error(error.message);
+    next(error);
+  }
+};
+
+exports.invalidateSessions = async (req, res, next) => {
+  try {
+    const { user } = req;
+    const session = await invalidateSessionsInteractor(user);
+    logger.info(session);
+    res.status(200).send({ message: sessionClosedMessage });
   } catch (error) {
     logger.error(error.message);
     next(error);
