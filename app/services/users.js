@@ -61,3 +61,13 @@ exports.createAdminUser = async userData => {
     throw databaseError(error.message);
   }
 };
+
+exports.getUserById = async id => {
+  try {
+    const user = await User.findOne({ where: { id } });
+    return user;
+  } catch (error) {
+    logger.error(error.message);
+    throw databaseError(databaseErrorMessage);
+  }
+};

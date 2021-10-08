@@ -49,3 +49,13 @@ exports.getWeets = async (limit, offset) => {
     throw databaseError(databaseErrorMessage);
   }
 };
+
+exports.getWeetById = async id => {
+  try {
+    const weet = await Weet.findOne({ where: { id } });
+    return weet;
+  } catch (error) {
+    logger.error(error.message);
+    throw databaseError(databaseErrorMessage);
+  }
+};

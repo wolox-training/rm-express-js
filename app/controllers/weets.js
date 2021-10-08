@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 const { createWeetInteractor, getWeetsInteractor } = require('../interactors/weets');
 const logger = require('../logger');
 
