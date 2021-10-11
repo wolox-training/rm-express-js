@@ -18,8 +18,8 @@ const verifyUser = async payload => {
 const verifySession = (payload, sessionExpire) => {
   if (!sessionExpire) return payload;
   const { iat, exp } = payload;
-  const now = Math.floor(Date.now() / 1000);
-  const sessionExpireDate = Math.round(new Date(sessionExpire).getTime() / 1000);
+  const now = Date.now() / 1000;
+  const sessionExpireDate = new Date(sessionExpire).getTime() / 1000;
   if (sessionExpireDate && sessionExpireDate > iat) {
     throw authenticationError(sessionExpiredErrorMessage);
   }

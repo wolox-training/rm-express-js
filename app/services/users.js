@@ -75,7 +75,7 @@ exports.getUserById = async id => {
 };
 
 exports.generateToken = user => {
-  const iat = Math.floor(Date.now() / 1000);
+  const iat = Date.now() / 1000;
   const exp = iat + secondsOffset;
   const payload = { id: user.id, email: user.email, isAdmin: user.isAdmin, iat, exp };
   const token = encode(payload);
