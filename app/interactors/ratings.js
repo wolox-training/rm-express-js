@@ -1,19 +1,23 @@
-const { createRateWeet } = require('../services/ratings');
 const { notFoundError } = require('../errors');
-const { weetNotFoundErrorMessage } = require('../helpers/constants');
+const { weetNotFoundErrorMessage, userNotFoundErrorMessage } = require('../helpers/constants');
 const logger = require('../logger');
-const { findRateWeet } = require('../services/ratings');
+const { findRateWeet, updateRateWeet, createRateWeet } = require('../services/ratings');
+const { getWeetById } = require('../services/weets');
+const { getUserById } = require('../services/users');
 
 exports.rateWeetsInteractor = async (params, body) => {
   const weetId = params.id;
   const { ratingUserId, score } = body;
-  const previousRatedWeed = await findRateWeet(weetId, ratingUserId);
-  if (previousRatedWeed && previousRatedWeed.score === score) {
-    return previousRatedWeed;
-  }
-  const previousRateId = previousRatedWeed && previousRatedWeed.id;
-  logger.info('previous rating weet is:', previousRatedWeed);
-  const weetRated = await createRateWeet(previousRateId, weetId, body);
-  if (!weetRated) throw notFoundError(weetNotFoundErrorMessage);
-  return weetRated;
+  const weet = await getWeetById(weetId);
+  if (!weet) throw notFoundError(weetNotFoundErrorMessage);
+  const { userId } = weet;
+  const user = await getUserById(userId);
+  if (!user) throw notFoundError(userNotFoundErrorMessage);
+  const newPoints = user.points + score;
+  const previousRatedWeet = await findRateWeet(weetId, ratingUserId);
+  if (!previousRatedWeet) return createRateWeet({ ratingUserId, weetId, score, userId, newPoints });
+  const ratingId = previousRatedWeet.id;
+  if (previousRatedWeet.score !== score) return updateRateWeet({ ratingId, score, userId, newPoints });
+  logger.info('previous rating weet is:', previousRatedWeet);
+  return previousRatedWeet;
 };

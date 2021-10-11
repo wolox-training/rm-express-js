@@ -1,4 +1,4 @@
-const { User, Weet, Rating } = require('../models');
+const { User, Rating } = require('../models');
 const { sequelize } = require('../models');
 const logger = require('../logger');
 
@@ -7,39 +7,35 @@ exports.findRateWeet = async (id, ratingUserId) => {
   return rating;
 };
 
-exports.createRateWeet = async (previousRateId, weetId, body) => {
+exports.createRateWeet = async rateWeetData => {
   let transaction = {};
-  const { score, ratingUserId } = body;
+  const { ratingUserId, weetId, score, userId, newPoints } = rateWeetData;
   try {
     transaction = await sequelize.transaction();
-    const currentRatedWeet = await Rating.upsert(
-      {
-        id: previousRateId,
-        ratingUserId,
-        score,
-        weetId
-      },
-      {
-        where: { id: previousRateId },
-        returning: true
-      }
-    );
-    const weet = await Weet.findOne(
-      {
-        include: [{ model: User, required: true, attributes: ['id', 'points'] }],
-        returning: true
-      },
-      { where: { id: weetId } }
-    );
-    logger.info(`actual weet is: ${weet}`);
-    const weetUserId = weet && weet.User.id;
-    const currentPoints = weet && weet.User.points;
-    await User.update(
-      { points: currentPoints + score },
-      { where: { id: weetUserId }, individualHooks: true }
-    );
+    const rateWeet = await Rating.create({ ratingUserId, score, weetId }, { transaction });
+    await User.update({ points: newPoints }, { where: { id: userId }, individualHooks: true, transaction });
     await transaction.commit();
-    return currentRatedWeet[0];
+    logger.info(`rate weet: ${rateWeet}`);
+    return rateWeet;
+  } catch (error) {
+    if (transaction.rollback) await transaction.rollback();
+    throw error;
+  }
+};
+
+exports.updateRateWeet = async rateWeetData => {
+  let transaction = {};
+  const { ratingId, score, userId, newPoints } = rateWeetData;
+  try {
+    transaction = await sequelize.transaction();
+    const rateWeet = await Rating.update(
+      { score },
+      { where: { id: ratingId }, returning: true, transaction }
+    );
+    await User.update({ points: newPoints }, { where: { id: userId }, individualHooks: true, transaction });
+    await transaction.commit();
+    logger.info(`rate weet: ${rateWeet}`);
+    return rateWeet[1][0];
   } catch (error) {
     if (transaction.rollback) await transaction.rollback();
     throw error;

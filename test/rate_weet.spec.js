@@ -1,30 +1,19 @@
 const jwt = require('jwt-simple');
 const supertest = require('supertest');
-const { factory } = require('factory-girl');
-const { User, Weet, Rating } = require('../app/models');
+const { User } = require('../app/models');
+const { factoryCreate } = require('./factory/factory_def');
 const app = require('../app');
-const { mockUserVerified, mockUser, mockUserDeveloper } = require('./mocks/mockUsers.js');
+const { mockUserVerified } = require('./mocks/mockUsers.js');
 const { VALIDATION_ERROR, AUTHORIZATION_ERROR } = require('../app/errors');
 
 const verify = jest.spyOn(jwt, 'decode');
 const request = supertest(app);
-factory.define('user', User, {});
-factory.define('weet', Weet, { content: 'loremIpsum', userId: factory.assoc('user', 'id') });
-factory.define('rating', Rating, {
-  ratingUserId: factory.assoc('user', 'id'),
-  weetId: factory.assoc('weet', 'id'),
-  score: 1
-});
 
 beforeEach(async done => {
   verify.mockImplementation(token => (token === 'fail' ? token : { payload: { ...mockUserVerified } }));
-  await factory.create('user', { id: 1, ...mockUser });
-  const userDeveloper = await factory.create('user', {
-    id: 2,
-    ...mockUserDeveloper
-  });
-
-  await factory.create('weet', { id: 1, userId: userDeveloper.id });
+  await factoryCreate('user', { id: 1 });
+  const userDeveloper = await factoryCreate('user', { id: 2 });
+  await factoryCreate('weet', { id: 1, userId: userDeveloper.id });
   done();
 });
 const getUserById = id => User.findOne({ where: { id } });

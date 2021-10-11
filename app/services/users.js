@@ -64,6 +64,16 @@ exports.createAdminUser = async userData => {
   }
 };
 
+exports.getUserById = async id => {
+  try {
+    const user = await User.findOne({ where: { id } });
+    return user;
+  } catch (error) {
+    logger.error(error.message);
+    throw databaseError(databaseErrorMessage);
+  }
+};
+
 exports.generateToken = user => {
   const iat = Math.floor(Date.now() / 1000);
   const exp = iat + secondsOffset;
