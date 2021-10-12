@@ -32,3 +32,6 @@ exports.authenticationError = message => internalError(message, exports.AUTHENTI
 
 exports.AUTHORIZATION_ERROR = 'authorization_error';
 exports.authorizationError = message => internalError(message, exports.AUTHORIZATION_ERROR);
+
+exports.EMAIL_SEND_ERROR = 'email_send_error';
+exports.emailSendError = message => internalError(message, exports.EMAIL_SEND_ERROR);

@@ -7,6 +7,7 @@ const {
   generateToken,
   updateUser
 } = require('../services/users');
+const { sendWelcomeEmail } = require('../services/emails');
 const { pagination } = require('../helpers/pagination');
 const { notFoundError, authenticationError, authorizationError } = require('../errors');
 const {
@@ -21,6 +22,7 @@ exports.signUpInteractor = async body => {
   const hashPass = await hashPassword(password);
   const user = await createUser({ firstName, lastName, email, password: hashPass });
   logger.info(`user ${user.id} was created succesfully`);
+  await sendWelcomeEmail(user);
   return { userId: user.id };
 };
 

@@ -14,3 +14,5 @@ exports.positionEm = { name: 'EM', minValue: 20, maxValue: 29 };
 exports.positionHead = { name: 'HEAD', minValue: 30, maxValue: 49 };
 exports.positionCeo = { name: 'CEO', minValue: 50 };
 exports.secondsOffset = 3600;
+exports.welcomeEmailMessage = 'Welcome to writter api';
+exports.emailSendErrorMessage = 'Unable to send email';
