@@ -10,9 +10,17 @@ const {
   mockUserMissingPassword,
   mockUserMissingEmail
 } = require('./mocks/mockUsers.js');
+const emails = require('../app/services/emails');
 
+const sendEmail = jest.spyOn(emails, 'sendWelcomeEmail');
 const request = supertest(app);
 const createUser = user => request.post('/users').send(user);
+
+beforeEach(done => {
+  sendEmail.mockImplementationOnce(() => 'send');
+  done();
+});
+
 describe('POST /users', () => {
   it('should respond succesfully if it passes all validations', async () => {
     const data = await createUser(mockUser);
@@ -59,5 +67,11 @@ describe('POST /users', () => {
     expect(data.statusCode).toBe(400);
     expect(data.body.internal_code).toContain(VALIDATION_ERROR);
     expect(data.body.message[0].params.missingProperty).toContain('password');
+  });
+
+  it('should send a welcome email if user is created', async () => {
+    const data = await createUser(mockUser);
+    expect(data.statusCode).toBe(201);
+    expect(sendEmail).toHaveBeenCalled();
   });
 });
