@@ -50,9 +50,9 @@ exports.getWeets = async (limit, offset) => {
   }
 };
 
-exports.getWeetById = async id => {
+exports.getWeetById = async (id, transaction) => {
   try {
-    const weet = await Weet.findOne({ where: { id } });
+    const weet = await Weet.findOne({ where: { id }, transaction });
     return weet;
   } catch (error) {
     logger.error(error.message);

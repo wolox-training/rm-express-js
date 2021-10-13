@@ -40,10 +40,16 @@ exports.getUsers = async (limit, offset) => {
   }
 };
 
-exports.updateUser = async (userId, userData) => {
+exports.updateUser = async (userId, userData, transaction) => {
   try {
-    const response = await User.update(userData, { where: { id: userId }, individualHooks: true });
-    logger.info('user updated response', response);
+    const response = await User.update(
+      { ...userData },
+      {
+        where: { id: userId },
+        individualHooks: true,
+        transaction
+      }
+    );
     return response;
   } catch (error) {
     logger.error(error.message);
@@ -64,9 +70,9 @@ exports.createAdminUser = async userData => {
   }
 };
 
-exports.getUserById = async id => {
+exports.getUserById = async (id, transaction) => {
   try {
-    const user = await User.findOne({ where: { id } });
+    const user = await User.findOne({ where: { id }, transaction });
     return user;
   } catch (error) {
     logger.error(error.message);
