@@ -6,7 +6,6 @@ const {
   createAdminUserInteractor,
   invalidateSessionsInteractor
 } = require('../interactors/users');
-const { sessionClosedMessage } = require('../helpers/constants');
 
 exports.signUp = async (req, res, next) => {
   try {
@@ -53,7 +52,7 @@ exports.invalidateSessions = async (req, res, next) => {
     const { user } = req;
     const session = await invalidateSessionsInteractor(user);
     logger.info(session);
-    res.status(200).send({ message: sessionClosedMessage });
+    res.status(204).end();
   } catch (error) {
     logger.error(error.message);
     next(error);

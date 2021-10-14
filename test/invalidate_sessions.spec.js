@@ -4,7 +4,6 @@ const app = require('../app');
 const { factoryCreate } = require('./factory/factory_def');
 const { AUTHORIZATION_ERROR } = require('../app/errors');
 const { mockUser } = require('./mocks/mockUsers.js');
-const { sessionClosedMessage } = require('../app/helpers/constants');
 
 const request = supertest(app);
 
@@ -27,9 +26,7 @@ describe('POST /users/sessions/invalidate_all', () => {
     const signInData = await signIn({ email: mockUser.email, password: mockUser.password });
     const userToken = signInData.body.token;
     const data = await invalidateAllSessions(userToken);
-    expect(data.statusCode).toBe(200);
-    expect(data.body).toHaveProperty('message');
-    expect(data.body.message).toContain(sessionClosedMessage);
+    expect(data.statusCode).toBe(204);
   });
 
   it('should fail if user is not authenticated', async () => {

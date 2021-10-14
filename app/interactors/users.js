@@ -61,5 +61,4 @@ exports.createAdminUserInteractor = async (user, body) => {
 exports.invalidateSessionsInteractor = async user => {
   const userSession = await updateUser(user.id, { sessionExpire: Date.now() });
   if (!userSession[0]) throw notFoundError(userNotFoundErrorMessage);
-  return { userId: userSession[1][0].id };
 };
