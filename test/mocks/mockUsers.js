@@ -57,3 +57,9 @@ exports.mockUserVerified = {
   email: 'email@wolox.co',
   isAdmin: true
 };
+
+exports.mockUserDeveloper = {
+  ...this.mockUserAlt,
+  points: 4,
+  position: 'Developer'
+};

@@ -52,9 +52,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   User.beforeUpdate(instance => {
+    logger.info(`actual points are: ${instance.dataValues.points}`);
     const pos = calculatePosition(instance.dataValues.points);
-    logger.info(`position is: ${pos}`);
     instance.position = pos;
+    logger.info(`position is: ${pos}`);
   });
   return User;
 };

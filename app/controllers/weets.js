@@ -1,6 +1,5 @@
-const logger = require('../logger');
-
 const { createWeetInteractor, getWeetsInteractor } = require('../interactors/weets');
+const logger = require('../logger');
 
 exports.weet = async (req, res, next) => {
   try {

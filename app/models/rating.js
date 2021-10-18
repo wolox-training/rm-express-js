@@ -22,6 +22,11 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false
         }
       },
+      {
+        underscored: true
+      }
+    );
+    Rating.belongsTo(
       models.Weet,
       {
         foreignKey: {

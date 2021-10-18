@@ -1,4 +1,5 @@
 const axios = require('axios');
+
 const { Weet } = require('../models');
 const logger = require('../logger');
 const errors = require('../errors');
@@ -43,6 +44,16 @@ exports.getWeets = async (limit, offset) => {
       offset
     });
     return weets;
+  } catch (error) {
+    logger.error(error.message);
+    throw databaseError(databaseErrorMessage);
+  }
+};
+
+exports.getWeetById = async (id, transaction) => {
+  try {
+    const weet = await Weet.findOne({ where: { id }, transaction });
+    return weet;
   } catch (error) {
     logger.error(error.message);
     throw databaseError(databaseErrorMessage);
