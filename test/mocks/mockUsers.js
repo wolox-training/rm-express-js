@@ -53,7 +53,7 @@ exports.mockUserInvalidEmail = {
 };
 
 exports.mockUserVerified = {
-  id: 1,
+  id: 2,
   email: 'email@wolox.co',
   isAdmin: true
 };

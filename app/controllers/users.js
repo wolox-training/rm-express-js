@@ -3,7 +3,8 @@ const {
   getUsersInteractor,
   signInInteractor,
   signUpInteractor,
-  createAdminUserInteractor
+  createAdminUserInteractor,
+  invalidateSessionsInteractor
 } = require('../interactors/users');
 
 exports.signUp = async (req, res, next) => {
@@ -40,6 +41,18 @@ exports.adminUser = async (req, res, next) => {
   try {
     const adminUser = await createAdminUserInteractor(req.user, req.body);
     res.status(201).send(adminUser);
+  } catch (error) {
+    logger.error(error.message);
+    next(error);
+  }
+};
+
+exports.invalidateSessions = async (req, res, next) => {
+  try {
+    const { user } = req;
+    const session = await invalidateSessionsInteractor(user);
+    logger.info(session);
+    res.status(204).end();
   } catch (error) {
     logger.error(error.message);
     next(error);

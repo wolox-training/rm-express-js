@@ -44,6 +44,10 @@ module.exports = (sequelize, DataTypes) => {
       position: {
         type: DataTypes.STRING,
         defaultValue: 'Developer'
+      },
+      sessionExpire: {
+        type: DataTypes.DATE,
+        field: 'session_expire'
       }
     },
     {

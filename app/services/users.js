@@ -1,8 +1,9 @@
 const logger = require('../logger');
+const { encode } = require('../helpers/jwt');
 
 const { User } = require('../models');
 const { databaseError } = require('../errors');
-const { databaseErrorMessage } = require('../helpers/constants');
+const { databaseErrorMessage, secondsOffset } = require('../helpers/constants');
 
 exports.createUser = async userdata => {
   try {
@@ -51,8 +52,8 @@ exports.updateUser = async (userId, userData, transaction) => {
     );
     return response;
   } catch (error) {
-    logger.error(error.name);
-    throw databaseError(error.message);
+    logger.error(error.message);
+    throw databaseError(databaseErrorMessage);
   }
 };
 
@@ -64,8 +65,8 @@ exports.createAdminUser = async userData => {
     });
     return response;
   } catch (error) {
-    logger.error(error.name);
-    throw databaseError(error.message);
+    logger.error(error.message);
+    throw databaseError(databaseErrorMessage);
   }
 };
 
@@ -77,4 +78,12 @@ exports.getUserById = async (id, transaction) => {
     logger.error(error.message);
     throw databaseError(databaseErrorMessage);
   }
+};
+
+exports.generateToken = user => {
+  const iat = Date.now() / 1000;
+  const exp = iat + secondsOffset;
+  const payload = { id: user.id, email: user.email, isAdmin: user.isAdmin, iat, exp };
+  const token = encode(payload);
+  return token;
 };

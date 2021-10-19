@@ -21,6 +21,7 @@ const verify = jest.spyOn(jwt, 'decode');
 factory.define('user', User, {});
 
 beforeEach(async done => {
+  await factory.create('user', { id: 2, ...mockUserAlt, isAdmin: true });
   verify.mockImplementation(token => {
     const userType = {
       fail: 'fail',
@@ -29,7 +30,6 @@ beforeEach(async done => {
     };
     return userType[token];
   });
-  await factory.create('user', { id: 2, ...mockUserAlt, isAdmin: true });
   done();
 });
 const createAdminUser = (token, user) =>
